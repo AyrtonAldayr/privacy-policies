@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Centro de Políticas de Privacidad | Multi-Project Privacy Hub</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #f59e0b;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      padding: 2rem 1rem 4rem;
+    }
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    h1 { margin: 0 0 0.5rem; font-size: 2rem; }
+    h2 { color: var(--accent); margin-top: 2rem; font-size: 1.35rem; }
+    h3 { margin-top: 1.25rem; font-size: 1.1rem; }
+    p, li { color: #e2e8f0; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .layer-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Arquitectura Modular de Privacidad</span>
+      <h1>Política de Privacidad y Seguridad de Datos</h1>
+      <p>Eje central de políticas de privacidad por capas aplicable a nuestras aplicaciones móviles y proyectos digitales, incluyendo <strong>TusPlanes</strong> (<code>pe.tusplanes.mobile</code>).</p>
+      <p style="color: var(--muted); font-size: 0.9rem;">Última actualización: 10 de noviembre de 2026 · Responsable: Ayrton Neves Estrada (<a href="mailto:ayrton.24.6.95@gmail.com">ayrton.24.6.95@gmail.com</a>)</p>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <span class="layer-tag">Proyecto Destacado · Google Play</span>
+        <h3 style="margin-top:0;">TusPlanes (<code>pe.tusplanes.mobile</code>)</h3>
+        <p>Aplicación móvil para descubrir panoramas, comparar opciones y organizar planes funcionando 100% offline en su versión 1.0.</p>
+        <a href="./tusplanes/">Ver Política específica de TusPlanes &rarr;</a>
+      </div>
+      <div class="card">
+        <span class="layer-tag">Marco Multi-Proyecto</span>
+        <h3 style="margin-top:0;">Plantilla Modular por Capas</h3>
+        <p>Estructura base reutilizable (Capas 1 a 4) para nuevas aplicaciones móviles, herramientas y servicios web.</p>
+        <a href="./template/">Ver Plantilla por Capas &rarr;</a>
+      </div>
+    </div>
+
+    <section class="card" id="marco-general">
+      <h2>1. Arquitectura de Privacidad por Capas</h2>
+      <p>Esta política está estructurada en capas modulares para ofrecer transparencia exacta según las capacidades técnicas activas en cada aplicación o versión:</p>
+      <ul>
+        <li><strong>Capa 1 — Operación Local y Offline-First (Activa en TusPlanes v1.0):</strong> Los datos generados por el usuario (como listas de planes guardados, favoritos o comparaciones) se almacenan única y exclusivamente en el almacenamiento interno local del dispositivo móvil. No se transmiten, venden ni comparten datos personales con servidores propios ni de terceros.</li>
+        <li><strong>Capa 2 — Integraciones Nativas del Dispositivo (Activa en TusPlanes v1.0):</strong> Cuando el usuario decide abrir una ubicación o enlace externo, la aplicación delega la acción a las aplicaciones nativas ya integradas en el dispositivo (como la aplicación de Mapas del sistema mediante intents estándar <code>geo:</code> o el navegador del sistema), sin utilizar claves de rastreo ni SDKs publicitarios.</li>
+        <li><strong>Capa 3 — Servicios en la Nube y Sincronización (Opcional para proyectos/versiones con Backend):</strong> En aquellos proyectos o versiones futuras que habiliten cuentas de usuario o sincronización en la nube, toda transmisión se realiza exclusivamente mediante conexiones cifradas (HTTPS/TLS 1.2+) y solo con el consentimiento explícito del usuario.</li>
+        <li><strong>Capa 4 — Control Total y Eliminación de Datos:</strong> El usuario conserva en todo momento el control absoluto sobre su información y puede eliminarla de forma inmediata.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="tusplanes">
+      <h2>2. Declaración Específica para TusPlanes (<code>pe.tusplanes.mobile</code>)</h2>
+      <ul>
+        <li><strong>Recopilación de datos personales:</strong> En su versión 1.0 (modo 100% Offline), <strong>TusPlanes no recopila, no transmite ni almacena datos personales identificables en servidores externos</strong>.</li>
+        <li><strong>Uso compartido con terceros:</strong> No se comparten datos de usuario con terceros, redes publicitarias ni corredores de datos. La aplicación no contiene anuncios.</li>
+        <li><strong>Datos almacenados localmente:</strong> Los eventos o panoramas que agregues a <em>"Mis Planes"</em> se guardan únicamente en la memoria local de tu teléfono para que puedas consultarlos sin conexión a Internet.</li>
+        <li><strong>Eliminación de datos:</strong> Puedes borrar instantáneamente todos tus planes y preferencias locales desde el botón <strong>"Privacidad y Seguridad de Datos (Play) &rarr; Eliminar mis planes locales"</strong> dentro de la aplicación, borrando los datos de la app en los ajustes de Android o desinstalando la aplicación.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="contacto">
+      <h2>3. Menores de Edad y Contacto de Privacidad</h2>
+      <p>Nuestras aplicaciones están dirigidas a un público general mayor de 18 años y no recopilan intencionalmente información de menores de edad.</p>
+      <p>Para cualquier consulta, solicitud de información o ejercicio de derechos de privacidad sobre cualquiera de nuestros proyectos, puedes comunicarte directamente con el desarrollador responsable:</p>
+      <ul>
+        <li><strong>Titular / Desarrollador:</strong> Ayrton Neves Estrada</li>
+        <li><strong>Correo electrónico:</strong> <a href="mailto:ayrton.24.6.95@gmail.com">ayrton.24.6.95@gmail.com</a></li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>© 2026 Ayrton Neves Estrada · Centro de Políticas de Privacidad Multi-Proyecto.</p>
+    </footer>
+  </div>
+</body>
+</html>
