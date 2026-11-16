@@ -1,32 +1,42 @@
-name: Deploy Privacy Policies Hub & Report
+name: Deploy Privacy Policies to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  deploy-and-report:
-    name: Deploy to gh-pages & Generate Report
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          fetch-depth: 0
+          path: '.'
 
-      - name: Deploy to GitHub Pages Branch (gh-pages)
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B gh-pages
-          git push -f origin gh-pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
-      - name: Generate Job Execution Summary Report
+      - name: Generate Execution Summary Report
         if: always()
         run: |
           {
@@ -35,8 +45,8 @@ jobs:
             echo "| Parámetro | Valor |"
             echo "| :--- | :--- |"
             echo "| **Repositorio** | \`${GITHUB_REPOSITORY}\` |"
-            echo "| **Rama Despliegue** | \`gh-pages\` |"
-            echo "| **Estado del Sitio** | ✅ Publicado |"
+            echo "| **Rama** | \`${GITHUB_REF_NAME}\` (\`${GITHUB_SHA::7}\`) |"
+            echo "| **Estado del Despliegue** | ✅ Publicado con éxito |"
             echo "| **URL Pública** | [Ver Sitio en GitHub Pages](https://ayrtonaldayr.github.io/privacy-policies/tusplanes/) |"
             echo ""
             echo "### 📱 Aplicaciones Publicadas"
