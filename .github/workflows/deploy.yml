@@ -1,40 +1,30 @@
-name: Deploy Privacy Policies to GitHub Pages
+name: Deploy Privacy Policies Hub & Report
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  deploy-and-report:
+    name: Deploy to gh-pages & Generate Report
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          fetch-depth: 0
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages Branch (gh-pages)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B gh-pages
+          git push -f origin gh-pages
 
       - name: Generate Job Execution Summary Report
         if: always()
@@ -45,8 +35,8 @@ jobs:
             echo "| Parámetro | Valor |"
             echo "| :--- | :--- |"
             echo "| **Repositorio** | \`${GITHUB_REPOSITORY}\` |"
-            echo "| **Rama Origen** | \`${GITHUB_REF_NAME}\` (\`${GITHUB_SHA::7}\`) |"
-            echo "| **Estado del Despliegue** | ✅ Publicado con éxito |"
+            echo "| **Rama Despliegue** | \`gh-pages\` |"
+            echo "| **Estado del Sitio** | ✅ Publicado |"
             echo "| **URL Pública** | [Ver Sitio en GitHub Pages](https://ayrtonaldayr.github.io/privacy-policies/tusplanes/) |"
             echo ""
             echo "### 📱 Aplicaciones Publicadas"
@@ -55,7 +45,4 @@ jobs:
             echo "| :--- | :--- | :--- | :--- |"
             echo "| **TusPlanes** | \`pe.tusplanes.mobile\` | [Ver Política TusPlanes](https://ayrtonaldayr.github.io/privacy-policies/tusplanes/) | ✅ Directo / Google Play Compliant |"
             echo "| **Centro Hub** | Multi-Proyecto | [Ver Centro de Políticas](https://ayrtonaldayr.github.io/privacy-policies/) | ✅ Activo |"
-            echo ""
-            echo "> [!NOTE]"
-            echo "> Desplegado con un solo workflow nativo en \`ubuntu-24.04\`, sin advertencias y con reporte de ejecución."
           } >> "$GITHUB_STEP_SUMMARY"
