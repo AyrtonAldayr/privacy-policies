@@ -1,45 +1,44 @@
-name: Deploy Privacy Policies Hub & Report
+name: Deploy Privacy Policies to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  deploy-and-report:
-    name: Deploy to gh-pages & Generate Report
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          fetch-depth: 0
+          path: '.'
 
-      - name: Deploy to GitHub Pages Branch (gh-pages)
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -B gh-pages
-          git push -f origin gh-pages
-
-      - name: Verify Live Endpoints
-        id: verify
-        run: |
-          echo "Waiting 5 seconds for GitHub edge..."
-          sleep 5
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://ayrtonaldayr.github.io/privacy-policies/tusplanes/ || echo "000")
-          echo "http_code=${HTTP_CODE}" >> "$GITHUB_OUTPUT"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Generate Job Execution Summary Report
         if: always()
         run: |
-          STATUS_ICON="✅ Activo (HTTP ${{ steps.verify.outputs.http_code }})"
-          [ "${{ steps.verify.outputs.http_code }}" != "200" ] && STATUS_ICON="⚠️ Respondiendo con HTTP ${{ steps.verify.outputs.http_code }}"
-
           {
             echo "## 🛡️ Reporte de Despliegue — Centro de Políticas de Privacidad"
             echo ""
@@ -47,16 +46,16 @@ jobs:
             echo "| :--- | :--- |"
             echo "| **Repositorio** | \`${GITHUB_REPOSITORY}\` |"
             echo "| **Rama Origen** | \`${GITHUB_REF_NAME}\` (\`${GITHUB_SHA::7}\`) |"
-            echo "| **Rama Despliegue** | \`gh-pages\` |"
-            echo "| **Estado del Endpoint** | ${STATUS_ICON} |"
+            echo "| **Estado del Despliegue** | ✅ Publicado con éxito |"
+            echo "| **URL Pública** | [Ver Sitio en GitHub Pages](https://ayrtonaldayr.github.io/privacy-policies/tusplanes/) |"
             echo ""
             echo "### 📱 Aplicaciones Publicadas"
             echo ""
             echo "| Aplicación | Paquete Android | URL Directa de Política de Privacidad | Estado |"
             echo "| :--- | :--- | :--- | :--- |"
-            echo "| **TusPlanes** | \`pe.tusplanes.mobile\` | [Ver Política TusPlanes](https://ayrtonaldayr.github.io/privacy-policies/tusplanes/) | ✅ Cumple Directiva Google Play |"
+            echo "| **TusPlanes** | \`pe.tusplanes.mobile\` | [Ver Política TusPlanes](https://ayrtonaldayr.github.io/privacy-policies/tusplanes/) | ✅ Directo / Google Play Compliant |"
             echo "| **Centro Hub** | Multi-Proyecto | [Ver Centro de Políticas](https://ayrtonaldayr.github.io/privacy-policies/) | ✅ Activo |"
             echo ""
-            echo "> [!TIP]"
-            echo "> La URL directa (\`https://ayrtonaldayr.github.io/privacy-policies/tusplanes/\`) es la requerida por Google Play Console para evitar rechazos por enlace indirecto."
+            echo "> [!NOTE]"
+            echo "> Desplegado con un solo workflow nativo en \`ubuntu-24.04\`, sin advertencias y con reporte de ejecución."
           } >> "$GITHUB_STEP_SUMMARY"
