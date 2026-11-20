@@ -18,6 +18,7 @@ Este repositorio funciona como **eje central** para múltiples proyectos mediant
 | Proyecto | Identificador / Paquete | Estado | Enlace directo de Política de Privacidad |
 | :--- | :--- | :--- | :--- |
 | **TusPlanes** | `pe.tusplanes.mobile` | Producción / v1.0 Offline | [`/tusplanes/`](./tusplanes/index.html) · [`tusplanes/PRIVACY_POLICY.md`](./tusplanes/PRIVACY_POLICY.md) |
+| **SmartLobby** | `pe.smartlobby.app` | Borrador / local-first | [`/smartlobby/`](./smartlobby/index.html) · [`smartlobby/PRIVACY_POLICY.md`](./smartlobby/PRIVACY_POLICY.md) |
 | **Plantilla Base Multi-Proyecto** | `pe.<proyecto>.app` | Plantilla Reutilizable | [`/template/`](./template/index.html) |
 
 ---
